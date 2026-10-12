@@ -200,6 +200,151 @@ if (!isset($settings)) {
             font-weight: 600 !important;
             padding: 0.75rem 1.5rem 0.25rem !important;
         }
+    
+/* ==========================================================================
+   Comprehensive Mobile Responsive Styles (debtors_sys)
+   ========================================================================== */
+@media (max-width: 767.98px) {
+    body {
+        padding-top: 104px !important;
+        font-size: 13px !important;
+    }
+
+    main, .col-md-9 {
+        margin-left: 0 !important;
+        width: 100% !important;
+        padding: 10px 8px !important;
+        max-width: 100% !important;
+    }
+
+    h1, .h1, .dashboard-title {
+        font-size: 1.25rem !important;
+    }
+    h2, .h2 { font-size: 1.15rem !important; }
+    h3, .h3 { font-size: 1.05rem !important; }
+
+    /* Top Google Navbar Mobile */
+    .google-header {
+        min-height: 52px !important;
+        padding: 4px 0 !important;
+    }
+    .navbar-brand span {
+        font-size: 16px !important;
+    }
+    .navbar-brand span:first-child img {
+        max-height: 24px !important;
+    }
+    .google-search-container {
+        height: 38px !important;
+        padding: 0 10px !important;
+        border-radius: 20px !important;
+    }
+    .google-search-input {
+        font-size: 12px !important;
+        padding: 4px 6px !important;
+    }
+    .google-search-icon {
+        font-size: 18px !important;
+    }
+
+    /* Cards & Widgets Mobile Sizing */
+    .widget-card, .google-card, .google-table-card {
+        border-radius: 14px !important;
+        padding: 12px !important;
+        margin-bottom: 12px !important;
+    }
+    .widget-icon-container {
+        width: 34px !important;
+        height: 34px !important;
+        border-radius: 10px !important;
+        margin-bottom: 8px !important;
+    }
+    .widget-icon-container .material-symbols-outlined {
+        font-size: 18px !important;
+    }
+    .widget-title {
+        font-size: 10px !important;
+        letter-spacing: 0.3px !important;
+        margin-bottom: 2px !important;
+    }
+    .widget-value {
+        font-size: 20px !important;
+        margin-bottom: 4px !important;
+    }
+    .widget-subtitle {
+        font-size: 11px !important;
+        padding-top: 6px !important;
+    }
+    .google-card-header {
+        font-size: 14px !important;
+        margin-bottom: 12px !important;
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+    }
+
+    /* Tables Mobile Sizing */
+    .table-responsive {
+        border-radius: 10px;
+        -webkit-overflow-scrolling: touch;
+    }
+    .table th, .table td {
+        padding: 7px 8px !important;
+        font-size: 12px !important;
+    }
+    .table th {
+        font-size: 11px !important;
+        letter-spacing: 0.2px !important;
+        white-space: nowrap;
+    }
+    .table .btn-sm {
+        padding: 3px 8px !important;
+        font-size: 11px !important;
+        border-radius: 14px !important;
+        white-space: nowrap !important;
+    }
+    .google-badge {
+        font-size: 10px !important;
+        padding: 2px 7px !important;
+        border-radius: 8px !important;
+    }
+
+    /* Buttons, Tabs & Inputs */
+    .filter-tab {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+        border-radius: 16px !important;
+    }
+    .google-btn-action, .google-btn-primary, .google-btn-secondary {
+        padding: 6px 12px !important;
+        font-size: 12px !important;
+        border-radius: 16px !important;
+    }
+    .google-search-wrapper {
+        border-radius: 18px !important;
+        padding: 2px 6px !important;
+        max-width: 100% !important;
+    }
+    .google-search-input {
+        font-size: 12px !important;
+        padding: 4px 6px !important;
+    }
+    .google-search-select {
+        font-size: 11px !important;
+        padding: 4px 4px !important;
+    }
+
+    /* Pagination Mobile */
+    .pagination {
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 2px !important;
+    }
+    .page-item .page-link {
+        padding: 4px 8px !important;
+        font-size: 11px !important;
+        border-radius: 4px !important;
+    }
+}
     </style>
 </head>
 

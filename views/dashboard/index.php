@@ -222,33 +222,33 @@ ob_start();
         <!-- Secondary Information Cards -->
         <div class="row g-3 mb-4">
             <div class="col-12 col-md-6">
-                <div class="p-3 bg-white rounded-4 border d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="p-2 bg-light rounded-circle text-primary">
-                            <span class="material-symbols-outlined fs-3">group</span>
+                <div class="p-3 bg-white rounded-4 border d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-2">
+                    <div class="d-flex align-items-center gap-2 gap-sm-3">
+                        <div class="p-2 bg-light rounded-circle text-primary flex-shrink-0">
+                            <span class="material-symbols-outlined fs-4">group</span>
                         </div>
                         <div>
-                            <div class="fw-bold text-dark fs-5"><?= $owingCustomers ?> <span class="fw-normal fs-6 text-muted">of <?= $totalCustomers ?> customers</span></div>
-                            <small class="text-muted">Currently have outstanding unpaid/partial sales</small>
+                            <div class="fw-bold text-dark fs-6"><?= $owingCustomers ?> <span class="fw-normal small text-muted">of <?= $totalCustomers ?> customers</span></div>
+                            <div class="text-muted small" style="font-size: 12px; line-height: 1.3;">Currently have outstanding unpaid/partial sales</div>
                         </div>
                     </div>
-                    <a href="<?= BASE_URL ?>/customers" class="btn btn-outline-primary btn-sm rounded-pill px-3">
+                    <a href="<?= BASE_URL ?>/customers" class="btn btn-outline-primary btn-sm rounded-pill px-3 flex-shrink-0 text-nowrap align-self-start align-self-sm-center">
                         Customer Ledger
                     </a>
                 </div>
             </div>
             <div class="col-12 col-md-6">
-                <div class="p-3 bg-white rounded-4 border d-flex align-items-center justify-content-between">
-                    <div class="d-flex align-items-center gap-3">
-                        <div class="p-2 bg-light rounded-circle text-success">
-                            <span class="material-symbols-outlined fs-3">price_check</span>
+                <div class="p-3 bg-white rounded-4 border d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-2">
+                    <div class="d-flex align-items-center gap-2 gap-sm-3">
+                        <div class="p-2 bg-light rounded-circle text-success flex-shrink-0">
+                            <span class="material-symbols-outlined fs-4">price_check</span>
                         </div>
                         <div>
-                            <div class="fw-bold text-dark fs-5">Fast Debt Settlement</div>
-                            <small class="text-muted">Direct invoice payment & bulk FIFO customer settlement enabled</small>
+                            <div class="fw-bold text-dark fs-6">Fast Debt Settlement</div>
+                            <div class="text-muted small" style="font-size: 12px; line-height: 1.3;">Direct invoice payment & bulk FIFO customer settlement enabled</div>
                         </div>
                     </div>
-                    <a href="<?= BASE_URL ?>/sales" class="btn btn-success btn-sm rounded-pill px-3">
+                    <a href="<?= BASE_URL ?>/sales" class="btn btn-success btn-sm rounded-pill px-3 flex-shrink-0 text-nowrap align-self-start align-self-sm-center">
                         Settle Invoices
                     </a>
                 </div>
@@ -260,12 +260,12 @@ ob_start();
             <!-- Top Debtors -->
             <div class="col-12 col-lg-7">
                 <div class="google-card h-100 mb-0">
-                    <div class="google-card-header">
+                    <div class="google-card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
                         <div class="d-flex align-items-center gap-2">
-                            <span class="material-symbols-outlined text-danger">crisis_alert</span>
-                            <span>Top Owing Customers</span>
+                            <span class="material-symbols-outlined text-danger fs-5">crisis_alert</span>
+                            <span class="fw-semibold">Top Owing Customers</span>
                         </div>
-                        <a href="<?= BASE_URL ?>/customers" class="small text-decoration-none">View All Customers &rarr;</a>
+                        <a href="<?= BASE_URL ?>/customers" class="small text-decoration-none text-nowrap fw-medium">View All &rarr;</a>
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover align-middle mb-0">
@@ -295,8 +295,8 @@ ob_start();
                                                 ₵<?= number_format($debtor['total_debt'], 2) ?>
                                             </td>
                                             <td class="text-end">
-                                                <a href="<?= BASE_URL ?>/customers/view?id=<?= $debtor['id'] ?>" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1">
-                                                    Settle
+                                                <a href="<?= BASE_URL ?>/customers/view?id=<?= $debtor['id'] ?>" class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1 text-nowrap d-inline-flex align-items-center gap-1" style="font-size: 11px;">
+                                                    <span class="material-symbols-outlined" style="font-size: 14px;">payments</span> Settle
                                                 </a>
                                             </td>
                                         </tr>

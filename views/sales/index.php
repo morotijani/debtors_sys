@@ -123,18 +123,19 @@ ob_start();
             <form action="<?= BASE_URL ?>/sales" method="GET" class="row g-3 align-items-center">
                 <!-- Group 1: Search & Dates -->
                 <div class="col-12 col-xl-6">
-                    <div class="d-flex align-items-center bg-light rounded-pill overflow-hidden border px-3">
-                        <span class="material-symbols-outlined text-muted" style="font-size: 18px;">search</span>
-                        <input type="text" name="search" class="form-control border-0 bg-transparent shadow-none"
-                            placeholder="Invoice # or Customer name" value="<?= e($filters['search']) ?>">
-                        
-                        <div class="d-flex align-items-center gap-1 border-start ps-3 ms-2">
-                            <span class="text-muted" style="font-size: 12px;">From</span>
+                    <div class="d-flex flex-column flex-sm-row align-items-stretch align-items-sm-center bg-light rounded-4 rounded-sm-pill overflow-hidden border p-1 px-sm-3 gap-1">
+                        <div class="d-flex align-items-center flex-grow-1 px-2 px-sm-0">
+                            <span class="material-symbols-outlined text-muted" style="font-size: 18px;">search</span>
+                            <input type="text" name="search" class="form-control border-0 bg-transparent shadow-none"
+                                placeholder="Invoice # or Customer name" value="<?= e($filters['search']) ?>" style="font-size: 13px;">
+                        </div>
+                        <div class="d-flex align-items-center gap-1 border-start-sm ps-sm-3 ms-sm-2 px-2 pb-1 pb-sm-0">
+                            <span class="text-muted" style="font-size: 11px;">From</span>
                             <input type="date" name="start_date" class="form-control border-0 bg-transparent shadow-none px-1"
-                                value="<?= e($filters['start_date']) ?>" style="width: 105px; font-size: 13px;">
-                            <span class="text-muted" style="font-size: 12px;">To</span>
+                                value="<?= e($filters['start_date']) ?>" style="max-width: 110px; font-size: 12px;">
+                            <span class="text-muted" style="font-size: 11px;">To</span>
                             <input type="date" name="end_date" class="form-control border-0 bg-transparent shadow-none px-1"
-                                value="<?= e($filters['end_date']) ?>" style="width: 105px; font-size: 13px;">
+                                value="<?= e($filters['end_date']) ?>" style="max-width: 110px; font-size: 12px;">
                         </div>
                     </div>
                 </div>
@@ -231,12 +232,13 @@ ob_start();
                                     </td>
                                     <td class="text-end">
                                         <a href="<?= BASE_URL ?>/sales/view?id=<?= $sale['id'] ?>" 
-                                           class="btn btn-sm <?= ($balanceDue > 0) ? 'btn-outline-danger' : 'btn-outline-secondary' ?> rounded-pill px-3 py-1">
-                                            <span class="material-symbols-outlined align-middle" style="font-size: 16px;">
-                                                <?= ($balanceDue > 0) ? 'payments' : 'visibility' ?>
-                                            </span>
-                                            <?= ($balanceDue > 0) ? 'Settle Debt' : 'View' ?>
-                                        </a>
+                                            class="btn btn-sm <?= ($balanceDue > 0) ? 'btn-outline-danger' : 'btn-outline-secondary' ?> rounded-pill px-2 py-1 text-nowrap d-inline-flex align-items-center gap-1"
+                                            style="font-size: 11px;">
+                                             <span class="material-symbols-outlined" style="font-size: 15px;">
+                                                 <?= ($balanceDue > 0) ? 'payments' : 'visibility' ?>
+                                             </span>
+                                             <?= ($balanceDue > 0) ? 'Settle' : 'View' ?>
+                                         </a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -252,21 +254,54 @@ ob_start();
                 </table>
             </div>
 
-            <!-- Pagination -->
+            <!-- Pagination (Responsive & Compact) -->
             <?php if ($totalPages > 1): ?>
-                <div class="d-flex justify-content-between align-items-center px-4 py-3 border-top">
+                <div class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2 px-3 py-3 border-top text-center text-sm-start">
                     <div class="text-muted small">
-                        Showing page <?= $page ?> of <?= $totalPages ?> (Total <?= $totalRecords ?> invoices)
+                        Page <span class="fw-bold text-dark"><?= $page ?></span> of <?= $totalPages ?> (<?= $totalRecords ?> total)
                     </div>
                     <nav>
-                        <ul class="pagination pagination-sm mb-0">
-                            <?php for ($p = 1; $p <= $totalPages; $p++): ?>
+                        <ul class="pagination pagination-sm mb-0 flex-wrap justify-content-center">
+                            <!-- Prev -->
+                            <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+                                <a class="page-link" href="?page=<?= max(1, $page - 1) ?>&search=<?= urlencode($filters['search']) ?>&status=<?= $filters['status'] ?>&start_date=<?= $filters['start_date'] ?>&end_date=<?= $filters['end_date'] ?>">
+                                    &laquo;
+                                </a>
+                            </li>
+
+                            <?php
+                            $startPage = max(1, $page - 2);
+                            $endPage = min($totalPages, $page + 2);
+
+                            if ($startPage > 1) {
+                                echo '<li class="page-item"><a class="page-link" href="?page=1&search=' . urlencode($filters['search']) . '&status=' . $filters['status'] . '&start_date=' . $filters['start_date'] . '&end_date=' . $filters['end_date'] . '">1</a></li>';
+                                if ($startPage > 2) {
+                                    echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                }
+                            }
+
+                            for ($p = $startPage; $p <= $endPage; $p++): ?>
                                 <li class="page-item <?= ($p == $page) ? 'active' : '' ?>">
                                     <a class="page-link" href="?page=<?= $p ?>&search=<?= urlencode($filters['search']) ?>&status=<?= $filters['status'] ?>&start_date=<?= $filters['start_date'] ?>&end_date=<?= $filters['end_date'] ?>">
                                         <?= $p ?>
                                     </a>
                                 </li>
-                            <?php endfor; ?>
+                            <?php endfor;
+
+                            if ($endPage < $totalPages) {
+                                if ($endPage < $totalPages - 1) {
+                                    echo '<li class="page-item disabled"><span class="page-link">...</span></li>';
+                                }
+                                echo '<li class="page-item"><a class="page-link" href="?page=' . $totalPages . '&search=' . urlencode($filters['search']) . '&status=' . $filters['status'] . '&start_date=' . $filters['start_date'] . '&end_date=' . $filters['end_date'] . '">' . $totalPages . '</a></li>';
+                            }
+                            ?>
+
+                            <!-- Next -->
+                            <li class="page-item <?= ($page >= $totalPages) ? 'disabled' : '' ?>">
+                                <a class="page-link" href="?page=<?= min($totalPages, $page + 1) ?>&search=<?= urlencode($filters['search']) ?>&status=<?= $filters['status'] ?>&start_date=<?= $filters['start_date'] ?>&end_date=<?= $filters['end_date'] ?>">
+                                    &raquo;
+                                </a>
+                            </li>
                         </ul>
                     </nav>
                 </div>

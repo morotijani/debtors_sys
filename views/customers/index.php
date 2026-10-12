@@ -182,7 +182,7 @@ $isOwingOnly = isset($_GET['owing']) && $_GET['owing'] == '1';
             </div>
 
             <!-- Search Bar -->
-            <form action="" method="GET" class="d-flex flex-grow-1 flex-md-grow-0" style="min-width: 320px;">
+            <form action="" method="GET" class="d-flex flex-grow-1 flex-md-grow-0 w-100" style="max-width: 500px;">
                 <?php if ($isOwingOnly): ?>
                     <input type="hidden" name="owing" value="1">
                 <?php endif; ?>
@@ -210,13 +210,13 @@ $isOwingOnly = isset($_GET['owing']) && $_GET['owing'] == '1';
                 <table class="table table-borderless align-middle mb-0">
                     <thead style="border-bottom: 1px solid #e3e3e3; background: #fafafa;">
                         <tr class="text-muted small text-uppercase">
-                            <th style="width: 50px; padding: 16px 20px;">#</th>
-                            <th style="padding: 16px 20px;">Customer Name</th>
-                            <th style="padding: 16px 20px;">Phone</th>
-                            <th style="padding: 16px 20px;">Address</th>
-                            <th class="text-end" style="padding: 16px 20px;">Outstanding Debt</th>
-                            <th style="padding: 16px 20px;">Last Invoice</th>
-                            <th class="text-end" style="padding: 16px 20px;">Actions</th>
+                            <th style="width: 45px;">#</th>
+                            <th>Customer Name</th>
+                            <th>Phone</th>
+                            <th>Address</th>
+                            <th class="text-end">Outstanding Debt</th>
+                            <th>Last Invoice</th>
+                            <th class="text-end">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -248,11 +248,11 @@ $isOwingOnly = isset($_GET['owing']) && $_GET['owing'] == '1';
                                 </td>
                                 <td class="text-end text-nowrap pe-4">
                                     <?php if ($customer['total_debt'] > 0): ?>
-                                        <a href="<?= BASE_URL ?>/customers/view?id=<?= $customer['id'] ?>" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 me-1">
-                                            <span class="material-symbols-outlined align-middle" style="font-size: 16px;">payments</span> Settle
+                                        <a href="<?= BASE_URL ?>/customers/view?id=<?= $customer['id'] ?>" class="btn btn-sm btn-outline-danger rounded-pill px-2 py-1 me-1 text-nowrap d-inline-flex align-items-center gap-1" style="font-size: 11px;">
+                                            <span class="material-symbols-outlined" style="font-size: 14px;">payments</span> Settle
                                         </a>
                                     <?php else: ?>
-                                        <a href="<?= BASE_URL ?>/customers/view?id=<?= $customer['id'] ?>" class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 me-1">
+                                        <a href="<?= BASE_URL ?>/customers/view?id=<?= $customer['id'] ?>" class="btn btn-sm btn-outline-secondary rounded-pill px-2 py-1 me-1 text-nowrap" style="font-size: 11px;">
                                             Ledger
                                         </a>
                                     <?php endif; ?>
