@@ -1,0 +1,394 @@
+  /* Import Google Fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+  :root {
+    --md-sys-color-primary: #1a73e8;
+    /* Google Blue */
+    --md-sys-color-on-primary: #ffffff;
+    --md-sys-color-primary-container: #d2e3fc;
+    /* Light Blue for active state */
+    --md-sys-color-on-primary-container: #174ea6;
+    /* Dark Blue for text on active */
+    --md-sys-color-secondary: #5f6368;
+    /* Google Grey */
+    --md-sys-color-on-secondary: #ffffff;
+    --md-sys-color-surface: #ffffff;
+    --md-sys-color-on-surface: #202124;
+    --md-sys-color-outline: #dadce0;
+    --md-font-family: 'Google Sans Flex',
+      'Google Sans',
+      'Product Sans',
+      'Roboto Flex',
+      'Roboto',
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
+    --md-nav-width: 280px;
+  }
+
+  body {
+    font-family: var(--md-font-family);
+    background-color: #f0f4f9;
+    color: var(--md-sys-color-on-surface);
+    margin: 0;
+    padding-top: 64px;
+    /* Space for fixed navbar */
+  }
+
+  /* Auth / Login Page Styles */
+  .auth-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f2f5;
+    /* Or white if strictly following the simplistic login page, but usually it's centered on a page. */
+    padding: 20px;
+  }
+
+  .auth-card {
+    background: #fff;
+    padding: 48px 40px 36px;
+    border-radius: 28px;
+    /* High radius */
+    border: 1px solid #dadce0;
+    width: 100%;
+    max-width: 450px;
+    /* transition: box-shadow .2s; */
+  }
+
+  /* @media (min-width: 601px) {
+    .auth-card {
+        border: 1px solid #dadce0;
+        border-radius: 8px;
+    }
+} */
+
+  .auth-title {
+    font-size: 24px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    color: #202124;
+  }
+
+  .auth-subtitle {
+    font-size: 16px;
+    color: #202124;
+    margin-bottom: 40px;
+  }
+
+  /* Form Floating label overrides for Google Style */
+  .form-floating>.form-control {
+    border-radius: 4px;
+    border: 1px solid #dadce0;
+  }
+
+  .form-floating>.form-control:focus {
+    border-color: #1a73e8;
+    box-shadow: none;
+    border-width: 2px;
+  }
+
+  .form-floating>label {
+    color: #5f6368;
+    padding-left: 14px;
+  }
+
+  .btn-primary {
+    background-color: var(--md-sys-color-primary);
+    border-color: var(--md-sys-color-primary);
+    border-radius: 4px;
+    /* Slightly rounded */
+    padding: 8px 24px;
+    font-weight: 500;
+    letter-spacing: 0.25px;
+    transition: background-color 0.2s, box-shadow 0.2s;
+  }
+
+  .btn-primary:hover {
+    background-color: #1557d5;
+    border-color: #1557d5;
+    box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  }
+
+  .auth-footer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 450px;
+  }
+
+  /* Google Account Style Layout */
+  /* API/Top Navbar */
+  .navbar-top {
+    height: 64px;
+    /* background-color: #fff; */
+    /* box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15); */
+    z-index: 1030;
+    /* Above sidebar */
+    padding: 0 16px;
+  }
+
+  .navbar-brand {
+    font-size: 1.375rem;
+    /* 22px */
+    color: #444746;
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+    margin-right: 1.5rem;
+    /* Gap after logo */
+  }
+
+  /* Central Search Bar */
+  .search-bar-container {
+    flex-grow: 1;
+    max-width: 720px;
+  }
+
+  .form-control-search {
+    background-color: #f1f3f4;
+    border: none;
+    border-radius: 8px;
+    /* Slightly rapidus look */
+    height: 48px;
+    padding: 0 50px;
+    /* Space for icon */
+    font-size: 16px;
+    color: #1f1f1f;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%235f6368' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 15px center;
+  }
+
+  @media (max-width: 576px) {
+    .form-control-search {
+      height: 40px;
+      padding: 0 40px;
+      background-position: 10px center;
+      font-size: 14px;
+    }
+    .search-bar-container {
+      margin-right: 0 !important;
+      margin-left: 5px !important;
+    }
+  }
+
+  .form-control-search:focus {
+    background-color: #fff;
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    outline: none;
+  }
+
+
+  /* Dashboard / Sidebar Layout */
+  .sidebar {
+    position: fixed;
+    top: 64px;
+    /* Below navbar */
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    /* Behind navbar if it overlays, but typically sidebar is separate */
+    padding: 0;
+    /* 0 padding */
+    box-shadow: none;
+    /* Removed shadow for cleaner look */
+    background-color: #f0f4f9;
+    /* Match body bg */
+    width: 256px;
+  }
+
+  @media (max-width: 767.98px) {
+    .sidebar {
+      top: 3.5rem;
+      /* Smoother transition */
+    }
+  }
+
+  /* Adjust main content to pushed right */
+  @media (min-width: 768px) {
+    .col-md-9 {
+      margin-left: 256px;
+      /* Width of sidebar */
+      width: calc(100% - 256px);
+      padding: 24px;
+      max-width: 1200px;
+      /* Optional: Constrain width like Google */
+      margin-right: auto;
+    }
+  }
+
+  .sidebar-sticky {
+    position: relative;
+    top: 0;
+    height: calc(100vh - 64px);
+    padding-top: .5rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    /* Scrollable contents if viewport is shorter than content. */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .sidebar-sticky::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+
+  /* Sidebar Links */
+  .nav-flex-column {
+    padding-right: 12px;
+    /* Space for the pill shape end */
+  }
+
+  .nav-item {
+    margin-bottom: 4px;
+  }
+
+  .nav-flex-column .nav-link {
+    color: #444746;
+    font-weight: 500;
+    border-radius: 0 24px 24px 0;
+    /* Pill shape right side */
+    margin-right: 12px;
+    /* Space from right edge */
+    padding: 10px 12px 10px 24px;
+    /* Icon indent */
+    display: flex;
+    align-items: center;
+    transition: background-color 0.1s;
+  }
+
+  .nav-flex-column .nav-link:hover {
+    background-color: rgba(68, 71, 70, 0.08);
+    /* Hover state */
+    color: #202124;
+  }
+
+  .nav-flex-column .nav-link.active {
+    color: #0b57d0;
+    /* Google Blue */
+    background-color: #c2e7ff;
+    /* Active list item bg */
+  }
+
+  .nav-flex-column .nav-link .icon {
+    margin-right: 16px;
+    font-size: 1.25rem;
+    width: 24px;
+    text-align: center;
+  }
+
+  /* Main Content Area */
+  main {
+    transition: margin-left 0.3s;
+    padding-top: 20px;
+    width: 100%;
+  }
+
+  /* Desktop Styles (Large Screens) */
+  @media (min-width: 992px) {
+    .sidebar {
+      top: 64px;
+      height: calc(100vh - 64px);
+      width: 256px;
+      /* Explicit width */
+      position: fixed;
+      left: 0;
+      z-index: 100;
+      background-color: #f0f4f9;
+      border-right: 1px solid #dadce0;
+    }
+
+    main {
+      margin-left: 256px;
+      /* Push content to right of fixed sidebar */
+      width: auto;
+      /* Let it fill naturally */
+      padding: 24px;
+      padding-top: 1.5rem;
+    }
+  }
+
+  /* Tablet/Mobile Styles (Medium & Small Screens) */
+  @media (max-width: 991.98px) {
+    .sidebar {
+      top: 64px;
+      width: 280px;
+      height: calc(100vh - 64px);
+      background-color: #fff;
+      box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
+      border-right: none;
+      z-index: 1050;
+      /* Above content */
+    }
+
+    main {
+      margin-left: 0;
+      padding: 16px;
+      width: 100%;
+    }
+  }
+
+  /* Center the container helper */
+  .container-fluid {
+    padding: 0;
+  }
+
+  /* Remove row margins that might cause scroll */
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  /* Card overrides for Google Style */
+  .card {
+    border: 1px solid #dadce0;
+    border-radius: 24px;
+    /* Matches Google Account */
+    box-shadow: none;
+    overflow: hidden;
+    /* Clean corners */
+    margin-bottom: 24px;
+  }
+
+  .card-header {
+    background-color: #fff;
+    border-bottom: 1px solid #f1f3f4;
+    /* Subtle divider */
+    padding: 20px 24px;
+    /* More breathing room */
+    font-size: 1.1rem;
+  }
+
+  .card-body {
+    padding: 24px;
+  }
+
+  /* Print Styles */
+  @media print {
+    .no-print {
+      display: none !important;
+    }
+
+    header {
+      display: none !important;
+    }
+
+    main {
+      margin-left: 0 !important;
+      width: 100% !important;
+      padding: 0 !important;
+    }
+
+    .sidebar {
+      display: none !important;
+    }
+
+    body {
+      padding-top: 0 !important;
+      background-color: #fff !important;
+    }
+  }

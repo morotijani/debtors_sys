@@ -1,0 +1,163 @@
+<?php
+namespace App\Controllers;
+
+use App\Config\Database;
+use App\Models\Sale;
+use App\Middleware\AuthMiddleware;
+use PDO;
+
+class FinanceController {
+    public function index() {
+        AuthMiddleware::requireAdmin();
+        $pdo = Database::getInstance();
+        
+        // 1. Total System Revenue (All-time total sales amount, including unpaid/debt)
+        $stmt = $pdo->query("SELECT SUM(total_amount) FROM sales WHERE voided = 0");
+        $totalRevenue = $stmt->fetchColumn() ?: 0;
+
+        // 1b. Cash Collected (All-time paid amount)
+        $stmt = $pdo->query("SELECT SUM(paid_amount) FROM sales WHERE voided = 0");
+        $cashCollected = $stmt->fetchColumn() ?: 0;
+
+        // 2. Total Profit (Realized)
+        // Realized Profit = Sum over all items: (PaidAmount / TotalAmount) * Qty * (PriceAtSale - ItemCostPrice)
+        $stmt = $pdo->query("SELECT SUM((s.paid_amount / s.total_amount) * si.quantity * (si.price_at_sale - i.cost_price)) 
+                            FROM sales s 
+                            JOIN sale_items si ON s.id = si.sale_id 
+                            JOIN items i ON si.item_id = i.id 
+                            WHERE s.voided = 0 AND s.total_amount > 0");
+        $totalRealizedProfit = $stmt->fetchColumn() ?: 0;
+
+        // 3. Total Expenses (Expenditures)
+        $stmt = $pdo->query("SELECT SUM(amount) FROM expenditures");
+        $totalExpenses = $stmt->fetchColumn() ?: 0;
+        
+        // 4. Coffer Transactions (Withdrawals and Deposits)
+        $stmt = $pdo->query("SELECT 
+                             SUM(CASE WHEN type = 'withdrawal' THEN amount ELSE 0 END) as total_withdrawals,
+                             SUM(CASE WHEN type = 'deposit' THEN amount ELSE 0 END) as total_deposits
+                             FROM coffer_transactions");
+        $cofferStats = $stmt->fetch(PDO::FETCH_ASSOC);
+        $totalWithdrawals = $cofferStats['total_withdrawals'] ?: 0;
+        $totalDeposits = $cofferStats['total_deposits'] ?: 0;
+
+        // 5. Coffer Balance = (Total Paid - Total Expenses - Total Withdrawals + Total Deposits)
+        $cofferBalance = $cashCollected - $totalExpenses - $totalWithdrawals + $totalDeposits;
+
+        // 6. Recent Coffer Transactions
+        $stmt = $pdo->query("SELECT ct.*, u.username as recorder_name 
+                            FROM coffer_transactions ct 
+                            JOIN users u ON ct.recorded_by = u.id 
+                            ORDER BY ct.created_at DESC LIMIT 20");
+        $transactions = $stmt->fetchAll();
+
+        require __DIR__ . '/../../views/admin/finance/index.php';
+    }
+
+    public function withdraw() {
+        AuthMiddleware::requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $withdrawal_type = $_POST['withdrawal_type'] ?? 'normal';
+            
+            if ($withdrawal_type === 'goods') {
+                $goods_amount = floatval($_POST['goods_amount'] ?? 0);
+                $transport_amount = floatval($_POST['transport_amount'] ?? 0);
+                $amount = $goods_amount + $transport_amount;
+                $description = trim($_POST['purpose'] ?? '');
+                
+                $purpose = json_encode([
+                    'is_goods' => true,
+                    'goods_amount' => $goods_amount,
+                    'transport_amount' => $transport_amount,
+                    'description' => $description
+                ]);
+            } else {
+                $amount = floatval($_POST['amount'] ?? 0);
+                $purpose = trim($_POST['purpose'] ?? '');
+            }
+            
+            if ($amount <= 0 || empty($purpose)) {
+                header('Location: ' . BASE_URL . '/admin/finance?error=Invalid amount or purpose');
+                exit;
+            }
+
+            $pdo = Database::getInstance();
+            $stmt = $pdo->prepare("INSERT INTO coffer_transactions (amount, type, purpose, recorded_by) VALUES (:amount, 'withdrawal', :purpose, :user_id)");
+            $stmt->execute([
+                'amount' => $amount,
+                'purpose' => $purpose,
+                'user_id' => $_SESSION['user_id']
+            ]);
+
+            header('Location: ' . BASE_URL . '/admin/finance?success=Withdrawal recorded successfully');
+            exit;
+        }
+    }
+
+    public function deposit() {
+        AuthMiddleware::requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $amount = $_POST['amount'] ?? 0;
+            $purpose = $_POST['purpose'] ?? '';
+            
+            if ($amount <= 0 || empty($purpose)) {
+                header('Location: ' . BASE_URL . '/admin/finance?error=Invalid amount or purpose');
+                exit;
+            }
+
+            $pdo = Database::getInstance();
+            $stmt = $pdo->prepare("INSERT INTO coffer_transactions (amount, type, purpose, recorded_by) VALUES (:amount, 'deposit', :purpose, :user_id)");
+            $stmt->execute([
+                'amount' => $amount,
+                'purpose' => $purpose,
+                'user_id' => $_SESSION['user_id']
+            ]);
+
+            header('Location: ' . BASE_URL . '/admin/finance?success=Deposit recorded successfully');
+            exit;
+        }
+    }
+
+    public function update() {
+        AuthMiddleware::requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'] ?? null;
+            $amount = $_POST['amount'] ?? 0;
+            $purpose = $_POST['purpose'] ?? '';
+
+            if (!$id || $amount <= 0 || empty($purpose)) {
+                header('Location: ' . BASE_URL . '/admin/finance?error=Invalid data provided');
+                exit;
+            }
+
+            $pdo = Database::getInstance();
+            $stmt = $pdo->prepare("UPDATE coffer_transactions SET amount = :amount, purpose = :purpose, sync_status = 0 WHERE id = :id");
+            $stmt->execute([
+                'amount' => $amount,
+                'purpose' => $purpose,
+                'id' => $id
+            ]);
+
+            header('Location: ' . BASE_URL . '/admin/finance?success=Transaction updated');
+            exit;
+        }
+    }
+
+    public function delete() {
+        AuthMiddleware::requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['id'] ?? null;
+            if (!$id) {
+                header('Location: ' . BASE_URL . '/admin/finance?error=Missing ID');
+                exit;
+            }
+
+            $pdo = Database::getInstance();
+            $stmt = $pdo->prepare("DELETE FROM coffer_transactions WHERE id = :id");
+            $stmt->execute(['id' => $id]);
+
+            header('Location: ' . BASE_URL . '/admin/finance?success=Transaction removed');
+            exit;
+        }
+    }
+}
