@@ -10,7 +10,20 @@
     <meta name="theme-color" content="#0d6efd">
     <link rel="apple-touch-icon" href="<?= BASE_URL ?>/assets/icon.svg">
 
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:opsz,wght@6..144,1..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bs-font-sans-serif: 'Google Sans Flex', 'Google Sans', 'Product Sans', 'Roboto', system-ui, -apple-system, sans-serif !important;
+            --bs-body-font-family: 'Google Sans Flex', 'Google Sans', 'Product Sans', 'Roboto', system-ui, -apple-system, sans-serif !important;
+            --md-font-family: 'Google Sans Flex', 'Google Sans', 'Product Sans', 'Roboto Flex', 'Roboto', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+        }
+        body, button, input, select, textarea, h1, h2, h3, h4, h5, h6, .btn {
+            font-family: var(--md-font-family) !important;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
     <!-- Material Symbols -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
