@@ -4,9 +4,9 @@
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)/$ / [L,R=301]
+    RewriteRule ^(.*)/$ /$1 [L,R=301]
 
     # Rewrite all requests to the public directory
     RewriteCond %{REQUEST_URI} !^/debtors_sys/public/
-    RewriteRule ^(.*)$ public/ [L]
+    RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
