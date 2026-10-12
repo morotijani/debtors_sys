@@ -215,11 +215,22 @@ class Customer {
     }
 
     public function getDebtPaymentHistory($customerId) {
-        $sql = "SELECT cdp.*, COALESCE(u.username, 'System') as recorded_by_name 
-                FROM customer_debt_payments cdp 
-                LEFT JOIN users u ON cdp.recorded_by = u.id 
-                WHERE cdp.customer_id = :cid 
-                ORDER BY cdp.payment_date DESC";
+        $isSqlite = $this->pdo->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'sqlite';
+        
+        $groupConcatStr = $isSqlite 
+            ? "GROUP_CONCAT(p.sale_id, ', ')" 
+            : "GROUP_CONCAT(DISTINCT p.sale_id SEPARATOR ', ')";
+
+        $sql = "SELECT dp.*, 
+                COALESCE(u.username, 'System') as recorder_name,
+                COALESCE(u.username, 'System') as recorded_by_name,
+                $groupConcatStr as affected_invoices
+                FROM customer_debt_payments dp
+                LEFT JOIN users u ON dp.recorded_by = u.id
+                LEFT JOIN payments p ON dp.id = p.customer_debt_payment_id
+                WHERE dp.customer_id = :cid
+                GROUP BY dp.id
+                ORDER BY dp.payment_date DESC";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute(['cid' => $customerId]);
         return $stmt->fetchAll();

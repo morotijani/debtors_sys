@@ -345,7 +345,7 @@ ob_start();
                                                             </span>
                                                         </div>
                                                         <div class="small text-muted mb-1">
-                                                            <strong>Recorded By:</strong> <?= e($pay['recorder_name']) ?>
+                                                            <strong>Recorded By:</strong> <?= e($pay['recorder_name'] ?? $pay['recorded_by_name'] ?? 'System') ?>
                                                         </div>
                                                         <div class="small text-dark">
                                                             <strong>Note:</strong> <?= e($pay['notes'] ?: 'No details') ?>
